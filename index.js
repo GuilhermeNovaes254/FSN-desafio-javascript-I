@@ -1,4 +1,4 @@
-// Base a ser utilizada
+
 const alunosDaEscola = [{
     nome: "Henrique",
     notas: [],
@@ -37,18 +37,6 @@ const alunosDaEscola = [{
     faltas: 0
 }];
 
-// {
-//     nome: "Guilherme",
-//     notas: [10, 9.8, 9.6],
-//     cursos: [{
-//         nomeDoCurso: "Full Stack",
-//         dataMatricula: new Date
-//     }],
-//     faltas: 0
-// }
-
-// implementação
-
 const adicionarAluno = (nome) => {
     if (typeof (nome) == "string") {
         let novoAluno = [{
@@ -62,26 +50,33 @@ const adicionarAluno = (nome) => {
     }
 }
 
-const listarAlunos = (() => {
-
-    for (let aluno of alunosDaEscola) {
-        console.log(`${aluno.nome}`)
-        for (let matricula of aluno.notas) {
-            console.log(`${matricula.cursos}
-            ${matricula.notas}`)
-        }
+const listarAlunos = () => {
+    
+    for (let item in alunosDaEscola) {
+        console.log('-----------------')
+        console.log('Nome : ' + alunosDaEscola[item].nome)
+        console.log('Notas : ' + alunosDaEscola[item].notas)
+        console.log('Cursos : ' + JSON.stringify(alunosDaEscola[item].cursos))
+        console.log('Faltas : ' + alunosDaEscola[item].faltas)
+    
     }
-})
-
-/*Com essa função o usuário poderá ver todos os alunos cadastrados atualmente no sistema. 
-Vale dizer que As informações deverão ser exibidas em um formato amigável.*/
+        
+}
 
 const buscarAluno = (nome) => {
     
     let flag = false;
     for (let item in alunosDaEscola) {
         if (alunosDaEscola[item].nome == nome) {
-            console.log(`Aluno \"${nome}\" Encontrado \nSerá detalhado`);
+            console.log(`Aluno \"${nome}\" encontrado`);
+            for (let item in alunosDaEscola) {
+                if(alunosDaEscola[item].nome == nome) {
+                    console.log('Nome : ' + alunosDaEscola[item].nome)
+                    console.log('Notas : ' + alunosDaEscola[item].notas)
+                    console.log('Cursos : ' + JSON.stringify(alunosDaEscola[item].cursos))
+                    console.log('Faltas : ' + alunosDaEscola[item].faltas)
+                }
+            }
             flag = true;
         }
     }
@@ -90,12 +85,6 @@ const buscarAluno = (nome) => {
     }
 
 }
-
-//const matricularAluno(aluno: object, curso: string) => {
-/* Essa funcionalidade irá permitir, cadastrar um aluno em um curso. 
-Essa função só poderá ser executada em um aluno já devidamente cadastrado no sistema, e deverá armazenar a data atual no momento da matricula
-Lembre-se de exibir o feedback para o usuário. */
-
 
 const aplicarFalta = (aluno) => {
 
@@ -125,39 +114,33 @@ const aprovarAluno = (aluno) => {
 
     let flag = false;
     for (let item in alunosDaEscola) {
-        if (alunosDaEscola[item].nome == aluno.nome) {
+        if(alunosDaEscola[item].nome == aluno.nome) {
+            console.log(alunosDaEscola[item].nome)
             for (let item2 in alunosDaEscola[item].cursos) {
                 if(alunosDaEscola[item].cursos[item2].nomeDoCurso == aluno.nomeDoCurso) {
                     flag = true;
-                    verificaAprovaAluno(alunosDaEscola[item].notas, alunosDaEscola[item].faltas);
+                    verificaCondicao(alunosDaEscola[item].notas, alunosDaEscola[item].faltas);
                 }
 
             }
             if(flag = false){
                 console.log(`Curso não encontrado para o aluno \"${aluno.nome}\"`)
             }
-        }else{console.log('faiou')}
+        }
     }    
     
 }
 
-const verificaAprovaAluno = (notas,faltas) => {
+const verificaCondicao = (notas,faltas) => {
     let media = 0;
     for(let nota in notas){
-        media =+ notas[nota];
+        media = media + notas[nota];
     }
     media = media/(notas.length);
 
-    if(faltas > 3 && notas <= 7){
+    if(faltas <= 3 && media >= 7){
         console.log('Aluno aprovado')
+    }else{
+        console.log('Aluno reprovado')
     }
 }
-
-
-let alunoNota = {
-    nome: "Guilherme",
-    nomeDoCurso: "Full Stack"
-}
-
-//console.log(alunoNota.nota)
-aprovarAluno(alunoNota) 
